@@ -43,7 +43,7 @@ ApplicationWindow {
 					id: csiAmplitudeSubcarrierAxis
 
 					min: (backend.timeDomain || backend.superResolution) ? -7 : backend.subcarrierRange[0]
-					max: (backend.timeDomain || backend.superResolution) ? 7 : backend.subcarrierRange.slice(-1)
+					max: (backend.timeDomain || backend.superResolution) ? 7 : backend.subcarrierRange.slice(-1)[0]
 					titleText: (backend.timeDomain || backend.superResolution) ? "<font color=\"#e0e0e0\">Delay [tap]</font>" : "<font color=\"#e0e0e0\">Subcarrier Index</font>"
 					titleFont.bold: false
 					gridLineColor: "#c0c0c0"
@@ -96,7 +96,7 @@ ApplicationWindow {
 					id: csiPhaseSubcarrierAxis
 
 					min: (backend.timeDomain || backend.superResolution) ? -7 : backend.subcarrierRange[0]
-					max: (backend.timeDomain || backend.superResolution) ? 7 : backend.subcarrierRange.slice(-1)
+					max: (backend.timeDomain || backend.superResolution) ? 7 : backend.subcarrierRange.slice(-1)[0]
 					titleText: (backend.timeDomain || backend.superResolution) ? "<font color=\"#e0e0e0\">Delay [tap]</font>" : "<font color=\"#e0e0e0\">Subcarrier Index</font>"
 					titleFont.bold: false
 					gridLineColor: "#c0c0c0"
