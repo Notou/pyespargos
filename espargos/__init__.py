@@ -28,11 +28,11 @@ class Logger:
         """
         Returns the current logging level of the logger.
         """
-        return cls.log.getEffectiveLevel()
+        return cls.logger.getEffectiveLevel()
 
     @classmethod
     def set_level(cls, level):
         """
         Sets the logging level of the logger.
         """
-        cls.log.setLevel(level=level)
+        cls.logger.setLevel(level=level)
