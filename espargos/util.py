@@ -5,7 +5,7 @@ from . import constants
 from . import csi
 
 
-def csi_interp_iterative(csi, weights=None, iterations=10):
+def csi_interp_iterative(csi: np.ndarray, weights: np.ndarray = None, iterations = 10):
 	"""
 	Interpolates CSI data (frequency-domain or time-domain) using an iterative algorithm.
 	Tries to sum up the CSI data phase-coherently with the least error.
@@ -31,7 +31,7 @@ def csi_interp_iterative(csi, weights=None, iterations=10):
 
 	return w
 
-def csi_interp_iterative_by_array(csi, weights=None, iterations=10):
+def csi_interp_iterative_by_array(csi: np.ndarray, weights: np.ndarray = None, iterations = 10):
 	"""
 	Interpolates CSI data (frequency-domain or time-domain) using an iterative algorithm.
 	Same as :func:`csi_interp_iterative`, but assumes that second dimension of :code:`csi` is the antenna array dimension and performs the interpolation for each antenna array separately.
@@ -43,7 +43,7 @@ def csi_interp_iterative_by_array(csi, weights=None, iterations=10):
 
 	return csi_interp
 
-def csi_interp_eigenvec(csi, weights=None):
+def csi_interp_eigenvec(csi: np.ndarray, weights: np.ndarray = None):
 	"""
 	Interpolates CSI data (frequency-domain or time-domain) by finding the principal eigenvector of the covariance matrix.
 
@@ -63,7 +63,7 @@ def csi_interp_eigenvec(csi, weights=None):
 
 	return np.reshape(v[:, principal], csi_shape)
 
-def get_frequencies_ht40(primary_channel, secondary_channel):
+def get_frequencies_ht40(primary_channel: int, secondary_channel: int):
 	"""
 	Returns the frequencies of the subcarriers in an HT40 2.4GHz WiFi channel.
 	:param primary_channel: The primary channel number.
@@ -77,7 +77,7 @@ def get_frequencies_ht40(primary_channel, secondary_channel):
 	assert(ht40_subcarrier_count % 2 == 1)
 	return center_ht40 + np.arange(-ht40_subcarrier_count // 2, ht40_subcarrier_count // 2) * constants.WIFI_SUBCARRIER_SPACING
 
-def get_calib_trace_wavelength(frequencies):
+def get_calib_trace_wavelength(frequencies: np.ndarray):
 	"""
 	Returns the wavelength of the subcarriers on the calibration traces on the ESPARGOS sensor board.
 
@@ -86,7 +86,7 @@ def get_calib_trace_wavelength(frequencies):
 	"""
 	return constants.CALIB_TRACE_GROUP_VELOCITY / frequencies
 
-def get_cable_wavelength(frequencies, velocity_factors):
+def get_cable_wavelength(frequencies: np.ndarray, velocity_factors: np.ndarray):
 	"""
 	Returns the wavelength of the provided subcarrier frequencies on a cable with the given velocity factors.
 
@@ -96,7 +96,7 @@ def get_cable_wavelength(frequencies, velocity_factors):
 	"""
 	return constants.SPEED_OF_LIGHT / frequencies[np.newaxis, :] * velocity_factors[:, np.newaxis]
 
-def interpolate_ht40_gap(csi_ht40):
+def interpolate_ht40_gap(csi_ht40: np.ndarray):
 	"""
 	Apply linear interpolation to determine realistic values for the subcarrier channel coefficients in the gap between the bonded channels in an HT40 channel.
 
@@ -111,7 +111,7 @@ def interpolate_ht40_gap(csi_ht40):
 	interp = (missing_indices - index_left) / (index_right - index_left)
 	csi_ht40[..., missing_indices] = interp * right[..., np.newaxis] + (1 - interp) * left[..., np.newaxis]
 
-def shift_to_firstpeak(csi_datapoints, max_delay_taps = 3, search_resolution = 40, peak_threshold = 0.4):
+def shift_to_firstpeak(csi_datapoints: np.ndarray, max_delay_taps = 3, search_resolution = 40, peak_threshold = 0.4):
 	"""
 	Shifts the CSI data so that the first peak of the channel impulse response is at time 0.
 	Uses a simple but rather computation-efficient algorithm to find the first peak of the channel impulse response (as opposed to superresolution-based approach).
@@ -135,7 +135,7 @@ def shift_to_firstpeak(csi_datapoints, max_delay_taps = 3, search_resolution = 4
 
 	return shift_to_firstpeak * csi_datapoints
 
-def fdomain_to_tdomain_pdp_mvdr(csi_fdomain, chunksize = 36, tap_min = -7, tap_max = 7, resolution = 200):
+def fdomain_to_tdomain_pdp_mvdr(csi_fdomain: np.ndarray, chunksize = 36, tap_min = -7, tap_max = 7, resolution = 200):
 	"""
 	Convert frequency-domain CSI data to a time-domain power delay profile (PDP) using the MVDR beamformer.
 
@@ -167,7 +167,7 @@ def fdomain_to_tdomain_pdp_mvdr(csi_fdomain, chunksize = 36, tap_min = -7, tap_m
 
 	return delays_taps, P_mvdr
 
-def fdomain_to_tdomain_pdp_music(csi_fdomain, source_count = None, chunksize = 36, tap_min = -7, tap_max = 7, resolution = 200):
+def fdomain_to_tdomain_pdp_music(csi_fdomain: np.ndarray, source_count: int = None, chunksize = 36, tap_min = -7, tap_max = 7, resolution = 200):
 	"""
 	Convert frequency-domain CSI data to a time-domain power delay profile (PDP) using MUSIC super-resolution.
 
@@ -219,7 +219,7 @@ def fdomain_to_tdomain_pdp_music(csi_fdomain, source_count = None, chunksize = 3
 
 	return delays_taps, P_music
 
-def estimate_toas_rootmusic(csi_fdomain, max_source_count = 2, chunksize = 36, per_board_average = False):
+def estimate_toas_rootmusic(csi_fdomain: np.ndarray, max_source_count = 2, chunksize = 36, per_board_average = False):
 	"""
 	Estimate the time of arrivals (ToAs) of the LoS paths using the root-MUSIC algorithm.
 

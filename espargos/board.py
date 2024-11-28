@@ -22,9 +22,9 @@ class EspargosUnexpectedResponseError(Exception):
 class Board(object):
     _csistream_timeout = 5
 
-    def __init__(self, host):
+    def __init__(self, host: str):
         """
-        Conststructor for the Board class. Tries to connect to the ESPARGOS controller at the given host and fetches configuration information.
+        Constructor for the Board class. Tries to connect to the ESPARGOS controller at the given host and fetches configuration information.
 
         :param host: The IP address or hostname of the ESPARGOS controller
 
@@ -78,7 +78,7 @@ class Board(object):
             self.csistream_thread.join()
             self.logger.info(f"Stopped CSI stream for {self.get_name()}")
 
-    def set_calib(self, calibrate):
+    def set_calib(self, calibrate: bool):
         """
         Enables or disables calibration mode on the ESPARGOS controller.
 
@@ -91,7 +91,7 @@ class Board(object):
             self.logger.error(f"Invalid response: {res}")
             raise EspargosUnexpectedResponseError
 
-    def add_consumer(self, clist, cv, *args):
+    def add_consumer(self, clist: list, cv: threading.Condition, *args):
         """
         Adds a consumer to the CSI stream.
         A consumer is defined by a list, a condition variable and additional arguments.
