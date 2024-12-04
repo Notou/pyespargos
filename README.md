@@ -40,7 +40,7 @@ The following demos are provided in the `demos` folder of this repository:
 
 * `music-spectrum`: Use the [MUSIC algorithm](https://en.wikipedia.org/wiki/MUSIC_(algorithm)) to display a spatial (angular) spectrum. Demonstrates angle of arrival (AoA) estimation.
 * `phases-over-space`: Show the average received phase for each ESPARGOS antenna.
-* `instantanteous-csi`: Plot the current frequency-domain or time-domain transfer function of the measured channel.
+* `instantaneous-csi`: Plot the current frequency-domain or time-domain transfer function of the measured channel.
 * `phases-over-time`: Plot the average received phase for every antenna over time.
 * `combined-array`: Combine multiple ESPARGOS arrays into one large antenna array and visualize the average received phase for each antenna. Requires multiple ESPARGOS arrays.
 
@@ -86,7 +86,7 @@ pool.stop()
 * ESPARGOS uses the L-LTF and/or HT-LTF fields of 802.11g/n frames to extract channel state information (CSI).
 * ESPARGOS is totally passive, it only acts as a receiver in promiscuous mode. It provides CSI for any WiFi frames it receives.
 * To receive frames, the transmitter and ESPARGOS must use the same WiFi channel.
-* 802.11n supports channel bandiwdths of 20MHz and 40MHz. The ESPARGOS hardware and firmware supports both bandwidth configurations, but *pyespargos* currently only works with frames which use 40MHz of bandwidth (known as "HT40").
+* 802.11n supports channel bandwidths of 20MHz and 40MHz. The ESPARGOS hardware and firmware supports both bandwidth configurations, but *pyespargos* currently only works with frames which use 40MHz of bandwidth (known as "HT40").
 
 ### Communication between pyespargos and ESPARGOS
 * ESPARGOS provides an HTTP / WebSockets API on port 80.
@@ -97,7 +97,7 @@ pool.stop()
 * The L-LFT and HT-LTF fields used for channel estimation are really short compared to the total length of the WiFi frame.
 * This results in really noisy CSI estimates.
 * Therefore, it is a good idea to average CSI over multiple WiFi packets.
-* To this end, *pyespargos* offsers a *backlog* functionality, where CSI from the last N packets is cached. The backlog is implemented as a ringbuffer.
+* To this end, *pyespargos* offers a *backlog* functionality, where CSI from the last N packets is cached. The backlog is implemented as a ringbuffer.
 * To obtain higher-quality CSI, you may use the CSI interpolation helpers in `espargos/util.py`.
 
 ### Calibration
@@ -112,12 +112,12 @@ pool.stop()
 
 ### Sampling Time Offset
 * While ESPARGOS provides phase (= LO signal) synchronization between antennas, it does not provide time synchronization (= ADC sampling clock).
-* This is because the receiver hardware in every ESP32 applies a receiver-specific sampling time offset correction to the received frame, but the [esp32-wifi-lib](https://github.com/espressif/esp32-wifi-lib) does not expose this information to the application firmware.
+* This is because the receiver hardware in every ESP32 applies a receiver-specific sampling time offset correction to the received frame, but the [esp32-wifi-lib](https://github.com/espressif/esp32-wifi-lib) does not expose this information to the application firmware (OUTDATED).
 * However, this is not a hardware limitation as the ESP32 clearly supports precise timestamping (it supports 802.11mc FTM).
 * There is [an open esp-idf issue](https://github.com/espressif/esp-idf/issues/9843) regarding this problem: We need to get precise reception timestamps from the WiFi binary blob.
 
 ## Additional Non-Public Demo Applications
-* `demo-recorder`: Application to record ESPARGOS datasets for publication on [https://espargos.net/datasets/](https://espargos.net/datasets/). Please contact me to get access.
+* `dataset-recorder`: Application to record ESPARGOS datasets for publication on [https://espargos.net/datasets/](https://espargos.net/datasets/). Please contact me to get access.
 * `realtime-localization`: Real-time Localization Demo: Channel Charting vs. Triangulation vs. Supervised Training. Requires multiple ESPARGOS. Please contact me to get access.
 <p>
 	<img src="img/demo-gifs/realtime-localization.gif" style="width: 50%; max-width: 400px;">
