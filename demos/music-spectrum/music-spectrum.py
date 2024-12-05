@@ -21,7 +21,7 @@ class EspargosDemoMusicSpectrum(PyQt6.QtWidgets.QApplication):
 		super().__init__(argv)
 
 		# Parse command line arguments
-		parser = argparse.ArgumentParser(description = "ESPARGOS Demo: Show phases over time (single board)")
+		parser = argparse.ArgumentParser(description = "ESPARGOS Demo: Show MUSIC angle of arrival spectrum (single board)")
 		parser.add_argument("host", type = str, help = "Host address (IP or hostname) of ESPARGOS controller")
 		parser.add_argument("-b", "--backlog", type = int, default = 20, help = "Number of CSI datapoints to average over in backlog")
 		parser.add_argument("-s", "--shift-peak", default = False, help = "Time-shift CSI so that first peaks align", action = "store_true")
