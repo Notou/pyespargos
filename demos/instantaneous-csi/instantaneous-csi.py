@@ -21,6 +21,7 @@ class EspargosDemoInstantaneousCSI(PyQt6.QtWidgets.QApplication):
 		# Parse command line arguments
 		parser = argparse.ArgumentParser(description = "ESPARGOS Demo: Show instantaneous CSI over subcarrier index (single board)")
 		parser.add_argument("hosts", type = str, help = "Comma-separated list of host addresses (IP or hostname) of ESPARGOS controllers")
+		parser.add_argument("-f", "--mac-filter", type = str, default = None, help = "MAC address filter regex")
 		parser.add_argument("-b", "--backlog", type = int, default = 20, help = "Number of CSI datapoints to average over in backlog")
 		parser.add_argument("-s", "--shift-peak", default = False, help = "Time-shift CSI so that first peaks align", action = "store_true")
 		parser.add_argument("--l20", default = False, help = "Operate on 20MHz band", action = "store_true")
@@ -37,6 +38,9 @@ class EspargosDemoInstantaneousCSI(PyQt6.QtWidgets.QApplication):
 		self.pool.start()
 		self.pool.calibrate(duration = 2, per_board=False)
 		self.backlog = espargos.CSIBacklog(self.pool, enable_ht40=not self.args.l20, size = self.args.backlog)
+		print(f"Mac filtering to {self.args.mac_filter}")
+		if self.args.mac_filter is not None:
+			self.backlog.set_mac_filter(self.args.mac_filter)
 		self.backlog.start()
 
 		# Qt setup
